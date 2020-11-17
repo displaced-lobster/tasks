@@ -8,7 +8,16 @@
       </q-toolbar>
     </q-header>
     <q-drawer v-model="drawer">
-      <q-btn no-caps class="full-width" color="primary" label="Reset All" @click="resetTasks" />
+      <q-list>
+        <q-item v-ripple clickable @click="resetTasks">
+          <q-item-section avatar>
+            <q-icon name="fas fa-th-list" />
+          </q-item-section>
+          <q-item-section>
+            Reset All
+          </q-item-section>
+        </q-item>
+      </q-list>
     </q-drawer>
     <q-page-container>
       <router-view />
