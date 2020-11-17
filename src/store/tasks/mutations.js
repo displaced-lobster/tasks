@@ -8,9 +8,22 @@ export function addTask(state, task) {
 }
 
 export function deleteTask(state, task) {
-  state.tasks = state.tasks.filter(t => t.id !== task.id)
+  const index = state.tasks.findIndex(t => t.id === task.id)
 
-  LocalStorage.set('tasks', state.tasks)
+  state.tasks.splice(index, 1)
+  state.undoStack.push({ index, task })
+
+  // LocalStorage.set('tasks', state.tasks)
+}
+
+export function popStack(state) {
+  const { index, task } = state.undoStack.pop()
+
+  if (task) {
+    state.tasks.splice(index, 0, task)
+
+    LocalStorage.set('tasks', state.tasks)
+  }
 }
 
 export function resetTasks(state) {

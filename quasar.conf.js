@@ -85,7 +85,9 @@ module.exports = function (/* ctx */) {
     framework: {
       iconSet: 'fontawesome-v5', // Quasar icon set
       lang: 'en-us', // Quasar language pack
-      config: {},
+      config: {
+        dark: true,
+      },
 
       // Possible values for "importStrategy":
       // * 'auto' - (DEFAULT) Auto-import needed Quasar components & directives
@@ -107,7 +109,7 @@ module.exports = function (/* ctx */) {
 
     // animations: 'all', // --- includes all animations
     // https://quasar.dev/options/animations
-    animations: [],
+    animations: 'all',
 
     // https://quasar.dev/quasar-cli/developing-ssr/configuring-ssr
     ssr: {

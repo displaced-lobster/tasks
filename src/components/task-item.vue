@@ -1,5 +1,5 @@
 <template>
-  <q-slide-item @right="deleteTask">
+  <q-slide-item right-color="negative" @right="deleteTask">
     <template v-slot:right>
       <q-icon name="far fa-trash-alt" />
     </template>
@@ -12,25 +12,36 @@
           {{ task.description }}
         </q-item-label>
         <q-item-label>
-          <q-chip
+          <q-btn
             v-for="i in task.complete"
-            clickable
-            color="transparent"
+            flat
+            round
+            color="primary"
+            icon="fas fa-circle"
             :key="i"
             @click="decrementReps"
-          >
-            <q-icon color="primary" name="fas fa-circle" />
-          </q-chip>
-          <q-chip
+          />
+          <q-btn
             v-for="i in remainder"
-            clickable
-            color="transparent"
+            flat
+            round
+            color="primary"
+            icon="far fa-circle"
             :key="task.complete + i"
             @click="incrementReps"
-          >
-            <q-icon color="primary" name="far fa-circle" />
-          </q-chip>
+          />
         </q-item-label>
+      </q-item-section>
+      <q-item-section side>
+        <q-circular-progress color="primary" size="50px" :show-value="complete" :value="progress">
+          <transition
+            appear
+            enter-active-class="animated fadeIn"
+            leave-active-class="animated fadeOut"
+          >
+            <q-icon v-show="complete" color="primary" name="fas fa-check-circle" size="lg" />
+          </transition>
+        </q-circular-progress>
       </q-item-section>
     </q-item>
   </q-slide-item>
@@ -46,6 +57,12 @@ export default {
     }
   },
   computed: {
+    complete() {
+      return this.remainder === 0
+    },
+    progress() {
+      return (this.task.complete / (this.remainder + this.task.complete)) * 100
+    },
     remainder() {
       return this.task.reps - this.task.complete
     }
@@ -63,7 +80,6 @@ export default {
     },
 
     incrementReps() {
-      console.log('Clicked')
       const task = { ...this.task }
 
       task.complete += 1
